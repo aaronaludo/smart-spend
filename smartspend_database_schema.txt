@@ -1,0 +1,111 @@
+Table users {
+  id integer
+  role_id integer
+  image varchar
+  first_name varchar
+  last_name varchar
+  email varchar
+  password varchar
+  phone varchar
+  address varchar
+  date_of_birth timestamp
+  age integer
+  work integer
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table roles {
+  id integer
+  name varchar
+}
+
+Table risk_assesments {
+  id integer
+  question varchar
+}
+
+Table risk_assesment_choices{
+  id integer
+  risk_assesments_id integer
+  letter varchar 
+  description varchar
+}
+
+Table user_assement_answers{
+  id integer
+  user_id integer
+  risk_assesments_id integer
+  letter varchar
+}
+
+Table incomes {
+  id integer
+  user_id integer
+  expected_monthly_income varchar
+  created_at timestamp
+}
+
+Table unexpected_incomes {
+  id integer
+  income_id integer
+  unexpected_monthly_income varchar
+  created_at timestamp
+}
+
+Table expenses {
+  id integer
+  user_id integer
+  expected_monthly_expense varchar
+  created_at timestamp
+}
+
+Table unexpected_expenses {
+  id integer
+  expenses_id integer
+  unexpected_monthly_expense varchar
+  created_at timestamp
+}
+
+Table notifications {
+  id integer
+  user_id integer
+  title varchar
+  description varchar
+  date timestamp
+}
+
+Table learning_features {
+   id integer
+   image varchar
+   title varchar
+}
+
+Table learning_feature_descriptions{
+  id integer
+  learning_feature_id integer
+  description varchar
+}
+
+
+Ref: "risk_assesment_choices"."risk_assesments_id" < "risk_assesments"."id"
+
+Ref: "user_assement_answers"."user_id" < "users"."id"
+
+Ref: "user_assement_answers"."risk_assesments_id" < "risk_assesments"."id"
+
+Ref: "unexpected_incomes"."income_id" < "incomes"."id"
+
+Ref: "incomes"."user_id" < "users"."id"
+
+Ref: "unexpected_expenses"."expenses_id" < "expenses"."id"
+
+Ref: "expenses"."user_id" < "users"."id"
+
+Ref: "notifications"."user_id" < "users"."id"
+
+
+Ref: "learning_feature_descriptions"."learning_feature_id" < "learning_features"."id"
+
+
+Ref: "users"."role_id" < "roles"."id"
