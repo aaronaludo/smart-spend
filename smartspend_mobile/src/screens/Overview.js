@@ -20,8 +20,8 @@ const data = {
   datasets: [
     {
       data: [20, 45, 28, 80, 99, 43],
-      color: (opacity = 1) => `#000000`, // sets the color for the line
-      strokeWidth: 2, // optional, sets the line thickness
+      color: (opacity = 1) => `#000000`,
+      strokeWidth: 2,
     },
   ],
 };
@@ -29,7 +29,7 @@ const data = {
 const Overview = ({ navigation }) => {
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
-  const [refreshing, setRefreshing] = useState(false); // State to manage refresh indicator
+  const [refreshing, setRefreshing] = useState(false);
 
   const [userData, setUserData] = useState({
     id: null,
@@ -54,10 +54,10 @@ const Overview = ({ navigation }) => {
 
   const fetchData = async () => {
     try {
-      setRefreshing(true); // Set refreshing state to true when fetching data starts
+      setRefreshing(true);
       const token = await AsyncStorage.getItem("userToken");
       const response = await axios.get(
-        `${"http://192.168.1.2:8000"}/api/users/overview`,
+        `${"http://192.168.6.142:8000"}/api/users/overview`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -69,7 +69,7 @@ const Overview = ({ navigation }) => {
     } catch (error) {
       console.log(error);
     } finally {
-      setRefreshing(false); // Set refreshing state to false when fetching data completes
+      setRefreshing(false);
     }
   };
 
@@ -88,7 +88,7 @@ const Overview = ({ navigation }) => {
   return (
     <ScrollView
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={fetchData} /> // Attach RefreshControl to ScrollView
+        <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
       }
     >
       <Box

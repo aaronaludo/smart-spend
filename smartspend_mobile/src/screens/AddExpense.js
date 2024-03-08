@@ -41,7 +41,7 @@ const AddExpense = ({ navigation }) => {
       const token = await AsyncStorage.getItem("userToken");
 
       const response = await axios.post(
-        `${"http://192.168.1.2:8000"}/api/users/expenses/add`,
+        `${"http://192.168.6.142:8000"}/api/users/expenses/add`,
         {
           name: name,
           expense: expense,

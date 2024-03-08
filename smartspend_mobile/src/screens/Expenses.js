@@ -23,7 +23,7 @@ const Expenses = ({ navigation, route }) => {
         const token = await AsyncStorage.getItem("userToken");
 
         const response = await axios.get(
-          `${"http://192.168.1.2:8000"}/api/users/expenses`,
+          `${"http://192.168.6.142:8000"}/api/users/expenses`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ const Expenses = ({ navigation, route }) => {
       const token = await AsyncStorage.getItem("userToken");
 
       const response = await axios.delete(
-        `${"http://192.168.1.2:8000"}/api/users/expenses/${id}`,
+        `${"http://192.168.6.142:8000"}/api/users/expenses/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

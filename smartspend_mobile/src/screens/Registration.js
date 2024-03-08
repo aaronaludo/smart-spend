@@ -44,7 +44,7 @@ const Registration = ({ navigation }) => {
     setError("");
     try {
       const response = await axios.post(
-        `${"http://192.168.1.2:8000"}/api/users/register`,
+        `${"http://192.168.6.142:8000"}/api/users/register`,
         {
           first_name: firstName,
           last_name: lastName,

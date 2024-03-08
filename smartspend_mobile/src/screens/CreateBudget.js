@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Box from "../components/Box";
 import {
   View,
@@ -7,26 +7,81 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
+  RefreshControl,
 } from "react-native";
 import { styles } from "../styles/Box";
 import { LineChart } from "react-native-chart-kit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const screenWidth = Dimensions.get("window").width;
 
-const data = {
-  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-  datasets: [
-    {
-      data: [20, 45, 28, 80, 99, 43],
-      color: (opacity = 1) => `#000000`, // sets the color for the line
-      strokeWidth: 2, // optional, sets the line thickness
-    },
-  ],
-};
-
 export default function Monthly({ navigation }) {
+  const [expenses, setExpenses] = useState([]);
+  const [incomes, setIncomes] = useState([]);
+  const [expensesDatasetsData, setExpensesDatasetsData] = useState([0]);
+  const [incomesDatasetsData, setIncomesDatasetsData] = useState([0]);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const expensesData = {
+    labels: expenses.map((group) => group.month),
+    datasets: [
+      {
+        data: expensesDatasetsData,
+        color: (opacity = 1) => `#000000`,
+        strokeWidth: 2,
+      },
+    ],
+  };
+
+  const incomesData = {
+    labels: incomes.map((group) => group.month),
+    datasets: [
+      {
+        data: incomesDatasetsData,
+        color: (opacity = 1) => `#000000`,
+        strokeWidth: 2,
+      },
+    ],
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const token = await AsyncStorage.getItem("userToken");
+
+      const response = await axios.get(
+        `${"http://192.168.6.142:8000"}/api/users/graph/create_budget`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setExpenses(response.data.groupedExpenses);
+      setIncomes(response.data.groupedIncomes);
+      setExpensesDatasetsData(
+        response.data.groupedExpenses.map((item) => item.data_count)
+      );
+      setIncomesDatasetsData(
+        response.data.groupedIncomes.map((item) => item.data_count)
+      );
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
+      }
+    >
       <View style={styles.container}>
         <Text style={styles.title}>Add your monthly Expenses</Text>
         <Text style={styles.description}>
@@ -34,10 +89,9 @@ export default function Monthly({ navigation }) {
         </Text>
         <View style={styless.container}>
           <LineChart
-            data={data}
+            data={expensesData}
             width={screenWidth - 80}
             height={220}
-            yAxisLabel={"$"}
             chartConfig={{
               backgroundColor: "#41DC40",
               backgroundGradientFrom: "#41DC40",
@@ -88,10 +142,9 @@ export default function Monthly({ navigation }) {
         <Text style={styles.description}>Add your new source of income.</Text>
         <View style={styless.container}>
           <LineChart
-            data={data}
+            data={incomesData}
             width={screenWidth - 80}
             height={220}
-            yAxisLabel={"$"}
             chartConfig={{
               backgroundColor: "#41DC40",
               backgroundGradientFrom: "#41DC40",

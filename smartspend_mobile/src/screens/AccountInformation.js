@@ -92,7 +92,7 @@ const AccountInformation = ({ navigation }) => {
         });
       }
 
-      const apiEndpoint = `${"http://192.168.1.2:8000"}/api/users/edit-profile`;
+      const apiEndpoint = `${"http://192.168.6.142:8000"}/api/users/edit-profile`;
       const token = await AsyncStorage.getItem("userToken");
 
       const response = await axios.post(apiEndpoint, formData, {

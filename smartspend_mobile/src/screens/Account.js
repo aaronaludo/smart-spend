@@ -42,7 +42,7 @@ export default function Account({ navigation }) {
       const token = await AsyncStorage.getItem("userToken");
       if (token) {
         const response = await axios.get(
-          `${"http://192.168.1.2:8000"}/api/users/logout`,
+          `${"http://192.168.6.142:8000"}/api/users/logout`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -70,7 +70,7 @@ export default function Account({ navigation }) {
         {userData.image !== null ? (
           <Image
             source={{
-              uri: `${"http://192.168.1.2:8000"}/storage/${userData.image}`,
+              uri: `${"http://192.168.6.142:8000"}/storage/${userData.image}`,
             }}
             style={styles.image}
           />

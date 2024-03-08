@@ -11,11 +11,11 @@ class ExpenseController extends Controller
 {
     public function index(){
         $user = User::find(auth()->user()->id);
-
+    
         $expenses = Expense::where('user_id', $user->id)->get();
-
+    
         return response()->json(['expenses' => $expenses]);
-    }
+    }    
 
     public function add(Request $request){
         $user = User::find(auth()->user()->id);
