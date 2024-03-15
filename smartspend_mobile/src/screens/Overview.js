@@ -15,22 +15,17 @@ import { LineChart } from "react-native-chart-kit";
 
 const screenWidth = Dimensions.get("window").width;
 
-const data = {
-  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-  datasets: [
-    {
-      data: [20, 45, 28, 80, 99, 43],
-      color: (opacity = 1) => `#000000`,
-      strokeWidth: 2,
-    },
-  ],
-};
-
 const Overview = ({ navigation }) => {
   const [income, setIncome] = useState(0);
+  const [graphData, setGraphData] = useState([
+    {
+      month: "Jan",
+      total_income: 0,
+      total_expense: 0,
+    },
+  ]);
   const [expense, setExpense] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
-
   const [userData, setUserData] = useState({
     id: null,
     role_id: null,
@@ -47,6 +42,22 @@ const Overview = ({ navigation }) => {
     updated_at: null,
   });
 
+  const data = {
+    labels: graphData.map((item) => item.month),
+    datasets: [
+      {
+        data: graphData.map((item) => item.total_income),
+        color: (opacity = 1) => `#000000`,
+        strokeWidth: 2,
+      },
+      {
+        data: graphData.map((item) => item.total_expense),
+        color: (opacity = 1) => `grey`,
+        strokeWidth: 2,
+      },
+    ],
+  };
+
   useEffect(() => {
     fetchData();
     getUserData();
@@ -57,13 +68,14 @@ const Overview = ({ navigation }) => {
       setRefreshing(true);
       const token = await AsyncStorage.getItem("userToken");
       const response = await axios.get(
-        `${"http://192.168.6.142:8000"}/api/users/overview`,
+        `${"http://192.168.1.5:8000"}/api/users/overview`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+      setGraphData(response.data.combined_data);
       setIncome(response.data.incomes);
       setExpense(response.data.expenses);
     } catch (error) {
@@ -101,14 +113,16 @@ const Overview = ({ navigation }) => {
       <View style={styless.container}>
         <LineChart
           data={data}
-          width={screenWidth - 40} // from react-native
+          width={screenWidth - 40}
           height={220}
-          yAxisLabel={"$"}
+          yAxisLabel="$"
+          yAxisSuffix=""
+          yAxisInterval={1}
           chartConfig={{
             backgroundColor: "#41DC40",
             backgroundGradientFrom: "#41DC40",
             backgroundGradientTo: "#41DC40",
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 2,
             color: (opacity = 1) => `grey`,
             labelColor: (opacity = 1) => `#fff`,
             style: {
@@ -118,6 +132,9 @@ const Overview = ({ navigation }) => {
               r: "6",
               strokeWidth: "2",
               stroke: "#ffffff",
+            },
+            propsForLabels: {
+              fontSize: 8,
             },
           }}
           bezier
@@ -150,8 +167,8 @@ const styless = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 20, // Adjust margin as needed
-    marginRight: 20, // Adjust margin as needed
+    marginLeft: 20,
+    marginRight: 20,
   },
 });
 

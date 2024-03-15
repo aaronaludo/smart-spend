@@ -48,7 +48,8 @@
                 <li><a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.index') || request()->routeIs('users.add')  ? 'active' : '' }}"><i class="fa-solid fa-users"></i> Users</a></li>
                 <li><a href="{{ route('admins.index') }}" class="{{ request()->routeIs('admins.index') || request()->routeIs('admins.add')  ? 'active' : '' }}"><i class="fa-solid fa-users"></i> Admins</a></li>
                 <li><a href="{{ route('reports.index') }}" class="{{ request()->routeIs('reports.index') ? 'active' : '' }}"><i class="fa-solid fa-chart-simple"></i> Reports</a></li>
-                {{-- <li><a href="{{ route('settings.index') }}" class="{{ request()->routeIs('settings.index') ? 'active' : '' }}"><i class="fa-solid fa-gear"></i> Settings</a></li> --}}
+                <li><a href="{{ route('learning-features.index') }}" class="{{ request()->routeIs('learning-features.index') ? 'active' : '' }}"><i class="fa-solid fa-book"></i> Learning Features</a></li>
+                <li><a href="{{ route('plans.index') }}" class="{{ request()->routeIs('plans.index') ? 'active' : '' }}"><i class="fa-solid fa-bell"></i> Plans</a></li>
             </ul>
         </nav>
         <div id="content">

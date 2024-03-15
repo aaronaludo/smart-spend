@@ -1,87 +1,92 @@
-import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 export default function Notification() {
+  const [refreshing, setRefreshing] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [userData, setUserData] = useState({
+    id: null,
+    role_id: null,
+    image: "",
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    address: "",
+    date_of_birth: "",
+    age: 0,
+    work: "",
+    created_at: null,
+    updated_at: null,
+  });
+
+  useEffect(() => {
+    fetchData();
+    getUserData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      setRefreshing(true);
+      const token = await AsyncStorage.getItem("userToken");
+      const response = await axios.get(
+        `${"http://192.168.1.5:8000"}/api/users/notifications`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setNotifications(response.data.notifications);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
+  const getUserData = async () => {
+    try {
+      const storedUserData = await AsyncStorage.getItem("userData");
+      if (storedUserData) {
+        const parsedUserData = JSON.parse(storedUserData);
+        setUserData(parsedUserData);
+      }
+    } catch (error) {
+      console.error("Error retrieving user data:", error);
+    }
+  };
+
   return (
-    <ScrollView>
-      <View style={styles2.container}>
-        <Text style={styles2.title}>Today</Text>
-      </View>
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Title</Text>
-          <Text style={styles.description}>10:13</Text>
-        </View>
-        <Text style={styles.description}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy. Lorem
-          Ipsum is simply dummy text of the printing and typesetting industry.
-          Lorem Ipsum has been the industry's standard dummy.
-        </Text>
-      </View>
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Title</Text>
-          <Text style={styles.description}>10:13</Text>
-        </View>
-        <Text style={styles.description}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy. Lorem
-          Ipsum is simply dummy text of the printing and typesetting industry.
-          Lorem Ipsum has been the industry's standard dummy.
-        </Text>
-      </View>
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Title</Text>
-          <Text style={styles.description}>10:13</Text>
-        </View>
-        <Text style={styles.description}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy. Lorem
-          Ipsum is simply dummy text of the printing and typesetting industry.
-          Lorem Ipsum has been the industry's standard dummy.
-        </Text>
-      </View>
-      <View style={styles2.container}>
-        <Text style={styles2.title}>Yesterday</Text>
-      </View>
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Title</Text>
-          <Text style={styles.description}>10:13</Text>
-        </View>
-        <Text style={styles.description}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy. Lorem
-          Ipsum is simply dummy text of the printing and typesetting industry.
-          Lorem Ipsum has been the industry's standard dummy.
-        </Text>
-      </View>
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Title</Text>
-          <Text style={styles.description}>10:13</Text>
-        </View>
-        <Text style={styles.description}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy. Lorem
-          Ipsum is simply dummy text of the printing and typesetting industry.
-          Lorem Ipsum has been the industry's standard dummy.
-        </Text>
-      </View>
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Title</Text>
-          <Text style={styles.description}>10:13</Text>
-        </View>
-        <Text style={styles.description}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy. Lorem
-          Ipsum is simply dummy text of the printing and typesetting industry.
-          Lorem Ipsum has been the industry's standard dummy.
-        </Text>
-      </View>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
+      }
+    >
+      {notifications.map((item) => (
+        <>
+          <View style={styles2.container}>
+            <Text style={styles2.title}>{item.date}</Text>
+          </View>
+          {item.notifications.map((item2) => (
+            <View style={styles.container} key={item2.id}>
+              <View style={styles.titleContainer}>
+                <Text style={styles.title}>{item2.title}</Text>
+                <Text style={styles.description}>{item2.date}</Text>
+              </View>
+              <Text style={styles.description}>{item2.description}</Text>
+            </View>
+          ))}
+        </>
+      ))}
     </ScrollView>
   );
 }

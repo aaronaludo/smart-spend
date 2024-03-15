@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,39 +6,97 @@ import {
   ScrollView,
   Image,
   StyleSheet,
+  RefreshControl,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
-const LearningFeatureModule = () => {
+const LearningFeatureModule = ({ navigation }) => {
+  const [refreshing, setRefreshing] = useState(false);
+  const [learningFeatures, setLearningFeatures] = useState([]);
+  const [userData, setUserData] = useState({
+    id: null,
+    role_id: null,
+    image: "",
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    address: "",
+    date_of_birth: "",
+    age: 0,
+    work: "",
+    created_at: null,
+    updated_at: null,
+  });
+
+  useEffect(() => {
+    fetchData();
+    getUserData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      setRefreshing(true);
+      const token = await AsyncStorage.getItem("userToken");
+      const response = await axios.get(
+        `${"http://192.168.1.5:8000"}/api/users/learning-features`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setLearningFeatures(response.data.learning_features);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
+  const getUserData = async () => {
+    try {
+      const storedUserData = await AsyncStorage.getItem("userData");
+      if (storedUserData) {
+        const parsedUserData = JSON.parse(storedUserData);
+        setUserData(parsedUserData);
+      }
+    } catch (error) {
+      console.error("Error retrieving user data:", error);
+    }
+  };
+
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
+      }
+    >
       <View style={styles.container}>
-        <View style={styles.containerHeader}>
-          <Text style={styles.titleHeader}>Module</Text>
-        </View>
-        <View style={styles.containerImage}>
-          <Image
-            source={require("../../assets/images/learn.jpg")}
-            style={styles.image}
-            resizeMode="contain"
-          />
-        </View>
-        <View style={styles.containerContent}>
-          <View style={styles.contents}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={{ fontWeight: "bold" }}>Section 1:</Text>
-              <Text style={{ marginLeft: 5 }}>Introduction</Text>
-            </View>
-            <View>
-              <Ionicons
-                name="md-arrow-forward-circle-sharp"
-                size={24}
-                color="black"
-              />
-            </View>
+        {learningFeatures.map((item) => (
+          <View style={styles.containerContent}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Learning Features Content")}
+            >
+              <View style={styles.contents}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text style={{ fontWeight: "bold" }}>Title:</Text>
+                  <Text style={{ marginLeft: 5 }}>Learning Features</Text>
+                </View>
+                <View>
+                  <Ionicons
+                    name="md-arrow-forward-circle-sharp"
+                    size={24}
+                    color="black"
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.containerContent}>
+        ))}
+        {/* <View style={styles.containerContent}>
           <View style={styles.contents}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text style={{ fontWeight: "bold" }}>Section 2:</Text>
@@ -56,7 +114,7 @@ const LearningFeatureModule = () => {
             <Text>1. 70-20-10 budget principle</Text>
             <Ionicons name="eye" size={24} color="blue" />
           </View>
-        </View>
+        </View> */}
       </View>
     </ScrollView>
   );
@@ -116,7 +174,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    marginBottom: 10,
+    marginVertical: 8,
   },
   titleHeader: {
     fontWeight: "bold",

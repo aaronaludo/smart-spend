@@ -15,25 +15,25 @@ class GraphController extends Controller
     
         $expenses = Expense::where('user_id', $user->id)->get();
         $incomes = Income::where('user_id', $user->id)->get();
-
+    
         $groupedExpenses = [];
         $groupedIncomes = [];
-
+    
         foreach ($expenses as $expense) {
             $date = date_create_from_format('m/d/Y', $expense->date);
             $month = date_format($date, 'n');
             $groupedExpenses[$month][] = $expense;
         }
-
+    
         foreach ($incomes as $income) {
             $date = date_create_from_format('m/d/Y', $income->date);
             $month = date_format($date, 'n');
             $groupedIncomes[$month][] = $income;
         }
-
+    
         ksort($groupedExpenses);
         ksort($groupedIncomes);
-
+    
         $monthNames = [
             1 => 'January',
             2 => 'February',
@@ -50,23 +50,33 @@ class GraphController extends Controller
         ];
     
         $formattedExpenses = [];
-        foreach ($groupedExpenses as $month => $expensess) {
+        foreach ($groupedExpenses as $month => $expenses) {
+            $totalExpense = 0;
+            foreach ($expenses as $expense) {
+                $totalExpense += $expense->expense;
+            }
             $formattedExpenses[] = [
                 'month' => $monthNames[$month],
-                'data' => $expensess,
-                'data_count' => count($expensess)
+                'total_expense' => $totalExpense,
+                'data' => $expenses,
+                'data_count' => count($expenses)
             ];
         }
         
         $formattedIncomes = [];
-        foreach ($groupedIncomes as $month => $incomess) {
+        foreach ($groupedIncomes as $month => $incomes) {
+            $totalIncome = 0;
+            foreach ($incomes as $income) {
+                $totalIncome += $income->income;
+            }
             $formattedIncomes[] = [
                 'month' => $monthNames[$month],
-                'data' => $incomess,
-                'data_count' => count($incomess)
+                'total_income' => $totalIncome,
+                'data' => $incomes,
+                'data_count' => count($incomes)
             ];
         }
         
         return response()->json(['groupedExpenses' => $formattedExpenses, 'groupedIncomes' => $formattedIncomes]);
-    }
+    }    
 }

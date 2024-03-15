@@ -9,6 +9,9 @@ use App\Http\Controllers\Mobile\ExpenseController;
 use App\Http\Controllers\Mobile\IncomeController;
 use App\Http\Controllers\Mobile\OverviewController;
 use App\Http\Controllers\Mobile\GraphController;;
+use App\Http\Controllers\Mobile\MonthlyController;
+use App\Http\Controllers\Mobile\NotificationController;
+use App\Http\Controllers\Mobile\LearningFeatureController;
 
 Route::prefix('users')->group(function () {
     Route::get('/test', [AuthController::class, 'test'])->name('users.test');
@@ -35,7 +38,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/incomes/{id}', [IncomeController::class, 'edit'])->name('users.incomes.edit');
         Route::delete('/incomes/{id}', [IncomeController::class, 'delete'])->name('users.incomes.delete');
 
+        Route::get('/monthly', [MonthlyController::class, 'index'])->name('users.graph.index');
         Route::get('/graph/create_budget', [GraphController::class, 'create_budget'])->name('users.graph.create_budget');
+
+        Route::get('/notifications', [NotificationController::class, 'index'])->name('users.notifications.index');
+
+        Route::get('/learning-features', [LearningFeatureController::class, 'index'])->name('users.learning-features.index');
 
         Route::get('/logout', [AuthController::class, 'logout'])->name('users.logout');
     });

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Notification;
 
 class AuthController extends Controller
 {
@@ -26,6 +27,13 @@ class AuthController extends Controller
 
             if ($user->role_id === 3) {
                 $token = $user->createToken('user_token')->plainTextToken;
+
+                $notification = new Notification();
+                $notification->user_id = $user->id;
+                $notification->title = 'Logged In';
+                $notification->description = 'Welcome Back!';
+                $notification->date = now();
+                $notification->save();
 
                 $response = [
                     'token' => $token,

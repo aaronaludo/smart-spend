@@ -54,7 +54,7 @@ export default function Monthly({ navigation }) {
       const token = await AsyncStorage.getItem("userToken");
 
       const response = await axios.get(
-        `${"http://192.168.6.142:8000"}/api/users/graph/create_budget`,
+        `${"http://192.168.1.5:8000"}/api/users/graph/create_budget`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -64,10 +64,10 @@ export default function Monthly({ navigation }) {
       setExpenses(response.data.groupedExpenses);
       setIncomes(response.data.groupedIncomes);
       setExpensesDatasetsData(
-        response.data.groupedExpenses.map((item) => item.data_count)
+        response.data.groupedExpenses.map((item) => item.total_expense)
       );
       setIncomesDatasetsData(
-        response.data.groupedIncomes.map((item) => item.data_count)
+        response.data.groupedIncomes.map((item) => item.total_income)
       );
     } catch (error) {
       console.log(error);
@@ -92,6 +92,7 @@ export default function Monthly({ navigation }) {
             data={expensesData}
             width={screenWidth - 80}
             height={220}
+            yAxisLabel={"₱"}
             chartConfig={{
               backgroundColor: "#41DC40",
               backgroundGradientFrom: "#41DC40",
@@ -145,6 +146,7 @@ export default function Monthly({ navigation }) {
             data={incomesData}
             width={screenWidth - 80}
             height={220}
+            yAxisLabel={"₱"}
             chartConfig={{
               backgroundColor: "#41DC40",
               backgroundGradientFrom: "#41DC40",

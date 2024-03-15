@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('learning_features', function (Blueprint $table) {
             $table->id();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('title');
+            $table->text('description');
             $table->timestamps();
         });
     }
