@@ -41,7 +41,7 @@ const LearningFeatureModule = ({ navigation }) => {
       setRefreshing(true);
       const token = await AsyncStorage.getItem("userToken");
       const response = await axios.get(
-        `${"http://192.168.1.5:8000"}/api/users/learning-features`,
+        `${"https://smart-spend.online"}/api/users/learning-features`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -75,15 +75,22 @@ const LearningFeatureModule = ({ navigation }) => {
       }
     >
       <View style={styles.container}>
+        <View style={styles.containerHeader}>
+          <Text style={styles.titleHeader}>Module</Text>
+        </View>
         {learningFeatures.map((item) => (
-          <View style={styles.containerContent}>
+          <View style={styles.containerContent} key={item.id}>
             <TouchableOpacity
-              onPress={() => navigation.navigate("Learning Features Content")}
+              onPress={() =>
+                navigation.navigate("Learning Features Content", {
+                  item: item,
+                })
+              }
             >
               <View style={styles.contents}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text style={{ fontWeight: "bold" }}>Title:</Text>
-                  <Text style={{ marginLeft: 5 }}>Learning Features</Text>
+                  <Text style={{ marginLeft: 5 }}>{item.title}</Text>
                 </View>
                 <View>
                   <Ionicons
@@ -174,7 +181,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    marginVertical: 8,
+    marginVertical: 3,
   },
   titleHeader: {
     fontWeight: "bold",

@@ -12,6 +12,9 @@ use App\Http\Controllers\Mobile\GraphController;;
 use App\Http\Controllers\Mobile\MonthlyController;
 use App\Http\Controllers\Mobile\NotificationController;
 use App\Http\Controllers\Mobile\LearningFeatureController;
+use App\Http\Controllers\Mobile\PlanController;
+use App\Http\Controllers\Mobile\UserPlanController;
+use App\Http\Controllers\Mobile\RiskAssessmentController;
 
 Route::prefix('users')->group(function () {
     Route::get('/test', [AuthController::class, 'test'])->name('users.test');
@@ -44,7 +47,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/notifications', [NotificationController::class, 'index'])->name('users.notifications.index');
 
         Route::get('/learning-features', [LearningFeatureController::class, 'index'])->name('users.learning-features.index');
+        
+        Route::get('/plans', [PlanController::class, 'index'])->name('users.plans.index');
+        
+        Route::post('/user-plan/add', [UserPlanController::class, 'add'])->name('users.user-plan.add');
+        Route::delete('/user-plan/{id}', [UserPlanController::class, 'delete'])->name('users.user-plan.delete');
 
+        Route::get('/risk-assessments', [RiskAssessmentController::class, 'index'])->name('users.risk-assessments.index');
+
+        Route::post('/risk-assessments/add', [RiskAssessmentController::class, 'add'])->name('users.risk-assessments.add');
+        
         Route::get('/logout', [AuthController::class, 'logout'])->name('users.logout');
     });
 });

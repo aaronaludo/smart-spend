@@ -54,7 +54,7 @@ export default function Monthly({ navigation }) {
       const token = await AsyncStorage.getItem("userToken");
 
       const response = await axios.get(
-        `${"http://192.168.1.5:8000"}/api/users/graph/create_budget`,
+        `${"https://smart-spend.online"}/api/users/graph/create_budget`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

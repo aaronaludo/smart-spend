@@ -22,6 +22,7 @@ class AccountController extends Controller
             'age' => 'required|integer',
             'work' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'salary' => 'required'
         ]);
 
         if ($user->role_id != 3) {
@@ -36,6 +37,7 @@ class AccountController extends Controller
         $user->date_of_birth = $request->date_of_birth;
         $user->age = $request->age;
         $user->work = $request->work;
+        $user->salary = $request->salary;
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');

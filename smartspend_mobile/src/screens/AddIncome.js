@@ -40,7 +40,7 @@ const AddIncome = ({ navigation }) => {
       const token = await AsyncStorage.getItem("userToken");
 
       const response = await axios.post(
-        `${"http://192.168.1.5:8000"}/api/users/incomes/add`,
+        `${"https://smart-spend.online"}/api/users/incomes/add`,
         {
           name: name,
           income: income,

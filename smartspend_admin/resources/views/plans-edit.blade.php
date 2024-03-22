@@ -47,15 +47,27 @@
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="minimum_salary" class="col-sm-12 col-lg-2 col-form-label">Title: <span class="required">*</span></label>
+                                    <label for="minimum_salary" class="col-sm-12 col-lg-2 col-form-label">Minimum Salary: <span class="required">*</span></label>
                                     <div class="col-lg-10 col-sm-12 d-flex align-items-center">
                                         <input type="number" class="form-control" id="minimum_salary" name="minimum_salary" value="{{ $plan->minimum_salary }}"/>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="minimum_age" class="col-sm-12 col-lg-2 col-form-label">Title: <span class="required">*</span></label>
+                                    <label for="minimum_age" class="col-sm-12 col-lg-2 col-form-label">Minimum Age: <span class="required">*</span></label>
                                     <div class="col-lg-10 col-sm-12 d-flex align-items-center">
                                         <input type="number" class="form-control" id="minimum_age" name="minimum_age" value="{{ $plan->minimum_age }}"/>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="cost" class="col-sm-12 col-lg-2 col-form-label">Cost: <span class="required">*</span></label>
+                                    <div class="col-lg-10 col-sm-12 d-flex align-items-center">
+                                        <input type="number" class="form-control" id="cost" name="cost"/>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="months" class="col-sm-12 col-lg-2 col-form-label">Months: <span class="required">*</span></label>
+                                    <div class="col-lg-10 col-sm-12 d-flex align-items-center">
+                                        <input type="number" class="form-control" id="months" name="months"/>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-center mt-5 mb-4">

@@ -25,6 +25,7 @@ class UserSeeder extends Seeder
             'date_of_birth' => '2000-01-01',
             'age' => 0,
             'work' => '', 
+            'salary' => '0', 
         ]);
         User::create([
             'role_id' => 2,
@@ -38,6 +39,7 @@ class UserSeeder extends Seeder
             'date_of_birth' => '2000-01-01',
             'age' => 0,
             'work' => '', 
+            'salary' => '0', 
         ]);
         User::create([
             'role_id' => 3,
@@ -51,6 +53,7 @@ class UserSeeder extends Seeder
             'date_of_birth' => '2000-01-01',
             'age' => 0,
             'work' => '', 
+            'salary' => '2000', 
         ]);
     }
 }

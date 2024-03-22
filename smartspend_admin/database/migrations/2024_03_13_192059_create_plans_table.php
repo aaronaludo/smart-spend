@@ -18,6 +18,8 @@ return new class extends Migration
             $table->text('description');
             $table->integer('minimum_salary');
             $table->integer('minimum_age');
+            $table->integer('months');
+            $table->integer('cost');
             $table->timestamps();
         });
     }

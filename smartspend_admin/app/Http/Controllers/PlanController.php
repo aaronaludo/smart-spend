@@ -28,6 +28,8 @@ class PlanController extends Controller
             'description' => 'required',
             'minimum_salary' => 'required|integer',
             'minimum_age' => 'required|integer',
+            'months' => 'required|integer',
+            'cost' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
@@ -41,6 +43,8 @@ class PlanController extends Controller
         $plan->description = $request->description;
         $plan->minimum_salary = $request->minimum_salary;
         $plan->minimum_age = $request->minimum_age;
+        $plan->months = $request->months;
+        $plan->cost = $request->cost;
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -73,6 +77,8 @@ class PlanController extends Controller
             'description' => 'required',
             'minimum_salary' => 'required|integer',
             'minimum_age' => 'required|integer',
+            'months' => 'required|integer',
+            'cost' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
@@ -85,7 +91,9 @@ class PlanController extends Controller
         $plan->description = $request->description;
         $plan->minimum_salary = $request->minimum_salary;
         $plan->minimum_age = $request->minimum_age;
-
+        $plan->months = $request->months;
+        $plan->cost = $request->cost;
+        
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();

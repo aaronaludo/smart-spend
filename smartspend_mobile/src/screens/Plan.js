@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const LearningFeatureContent = ({ route }) => {
+const SinglePlan = ({ route }) => {
   const { item } = route.params;
   console.log(item);
 
@@ -39,13 +39,6 @@ const LearningFeatureContent = ({ route }) => {
               <Text style={{ fontWeight: "bold" }}>Title:</Text>
               <Text style={{ marginLeft: 5 }}>{item.title}</Text>
             </View>
-            <View>
-              {/* <Ionicons
-                name="md-arrow-forward-circle-sharp"
-                size={24}
-                color="black"
-              /> */}
-            </View>
           </View>
         </View>
         <View style={styles.containerContent}>
@@ -54,12 +47,37 @@ const LearningFeatureContent = ({ route }) => {
               <Text style={{ fontWeight: "bold" }}>Description:</Text>
               <Text style={{ marginLeft: 5 }}>{item.description}</Text>
             </View>
-            <View>
-              {/* <Ionicons
-                name="md-arrow-down-circle-sharp"
-                size={24}
-                color="black"
-              /> */}
+          </View>
+        </View>
+        <View style={styles.containerContent}>
+          <View style={styles.contents}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={{ fontWeight: "bold" }}>Minimum Salary:</Text>
+              <Text style={{ marginLeft: 5 }}>{item.minimum_salary}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.containerContent}>
+          <View style={styles.contents}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={{ fontWeight: "bold" }}>Minimum Age:</Text>
+              <Text style={{ marginLeft: 5 }}>{item.minimum_age}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.containerContent}>
+          <View style={styles.contents}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={{ fontWeight: "bold" }}>Cost:</Text>
+              <Text style={{ marginLeft: 5 }}>{item.cost}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.containerContent}>
+          <View style={styles.contents}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={{ fontWeight: "bold" }}>Months:</Text>
+              <Text style={{ marginLeft: 5 }}>{item.months}</Text>
             </View>
           </View>
         </View>
@@ -68,7 +86,7 @@ const LearningFeatureContent = ({ route }) => {
   );
 };
 
-export default LearningFeatureContent;
+export default SinglePlan;
 
 const styles = StyleSheet.create({
   container: {

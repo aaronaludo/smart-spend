@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('date_of_birth')->nullable();
             $table->string('age')->nullable();
             $table->string('work')->nullable();
+            $table->string('salary')->nullable()->default(0);
             $table->timestamps();
         });
     }

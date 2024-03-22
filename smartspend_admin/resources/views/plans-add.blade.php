@@ -57,6 +57,18 @@
                                         <input type="number" class="form-control" id="minimum_age" name="minimum_age"/>
                                     </div>
                                 </div>
+                                <div class="mb-3 row">
+                                    <label for="cost" class="col-sm-12 col-lg-2 col-form-label">Cost: <span class="required">*</span></label>
+                                    <div class="col-lg-10 col-sm-12 d-flex align-items-center">
+                                        <input type="number" class="form-control" id="cost" name="cost"/>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="months" class="col-sm-12 col-lg-2 col-form-label">Months: <span class="required">*</span></label>
+                                    <div class="col-lg-10 col-sm-12 d-flex align-items-center">
+                                        <input type="number" class="form-control" id="months" name="months"/>
+                                    </div>
+                                </div>
                                 <div class="d-flex justify-content-center mt-5 mb-4">
                                     <button class="btn btn-success" type="submit">Submit</button>
                                 </div>

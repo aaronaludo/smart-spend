@@ -14,6 +14,8 @@
                     <p class="color-kabarkadogs">Description: <span class="fw-bold ms-2">{{ $plan->description }}</span></p>
                     <p class="color-kabarkadogs">Minimum Salary: <span class="fw-bold ms-2">{{ $plan->minimum_salary }}</span></p>
                     <p class="color-kabarkadogs">Minimum Salary: <span class="fw-bold ms-2">{{ $plan->minimum_age }}</span></p>
+                    <p class="color-kabarkadogs">Cost: <span class="fw-bold ms-2">{{ $plan->cost }}</span></p>
+                    <p class="color-kabarkadogs">Months: <span class="fw-bold ms-2">{{ $plan->months }}</span></p>
                 </div>
             </div>                    
         </div>

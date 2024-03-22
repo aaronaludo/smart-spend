@@ -68,7 +68,7 @@ const Overview = ({ navigation }) => {
       setRefreshing(true);
       const token = await AsyncStorage.getItem("userToken");
       const response = await axios.get(
-        `${"http://192.168.1.5:8000"}/api/users/overview`,
+        `${"https://smart-spend.online"}/api/users/overview`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

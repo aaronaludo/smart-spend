@@ -15,7 +15,6 @@ const RiskAssessment = ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [riskAssessments, setRiskAssessments] = useState([]);
   const [riskAssessmentsAnswers, setRiskAssessmentsAnswers] = useState([]);
-  const [render, setRender] = useState(null);
   const [userData, setUserData] = useState({
     id: null,
     role_id: null,
@@ -33,12 +32,11 @@ const RiskAssessment = ({ navigation }) => {
     updated_at: null,
   });
   const [selectedOptions, setSelectedOptions] = useState({});
-  console.log(riskAssessmentsAnswers);
 
   useEffect(() => {
     fetchData();
     getUserData();
-  }, [render]);
+  }, []);
 
   const fetchData = async () => {
     try {
@@ -109,7 +107,7 @@ const RiskAssessment = ({ navigation }) => {
         }
       );
 
-      setRender(response);
+      // setRender(response);
     } catch (error) {
       console.log(error);
     }
@@ -121,16 +119,6 @@ const RiskAssessment = ({ navigation }) => {
         <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
       }
     >
-      {riskAssessmentsAnswers.length !== 0 && (
-        <View style={styles.containerButton}>
-          <TouchableOpacity
-            style={styles.inputButton}
-            onPress={() => navigation.navigate("Risk Assessment Answers")}
-          >
-            <Text style={styles.buttonText}>Your Risk Assessment Answers</Text>
-          </TouchableOpacity>
-        </View>
-      )}
       {riskAssessments.map((question) => (
         <View key={question.id} style={styles.container}>
           <Text style={styles.title}>{question.question}</Text>
@@ -138,7 +126,15 @@ const RiskAssessment = ({ navigation }) => {
             <CheckBox
               key={choice.id}
               title={choice.description}
-              checked={selectedOptions[question.id] === choice.letter}
+              checked={
+                riskAssessmentsAnswers.results.find(
+                  (answer) =>
+                    answer.question_id === question.id &&
+                    answer.letter === choice.letter
+                )
+                  ? true
+                  : false
+              }
               onPress={() => handleOptionSelect(question.id, choice.letter)}
               containerStyle={{
                 borderWidth: 0,

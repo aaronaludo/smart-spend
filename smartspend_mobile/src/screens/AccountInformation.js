@@ -13,8 +13,10 @@ import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { styles } from "../styles/Form";
+import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 
 const AccountInformation = ({ navigation }) => {
+  const [date, setDate] = useState(new Date());
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,8 +24,29 @@ const AccountInformation = ({ navigation }) => {
   const [address, setAddress] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [age, setAge] = useState("");
+  const [salary, setSalary] = useState("");
   const [work, setWork] = useState("");
   const [imageUri, setImageUri] = useState(null);
+  console.log(date);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    console.log(currentDate);
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    DateTimePickerAndroid.open({
+      value: date,
+      onChange,
+      mode: currentMode,
+      is24Hour: false,
+    });
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -54,14 +77,20 @@ const AccountInformation = ({ navigation }) => {
       const storedUserData = await AsyncStorage.getItem("userData");
       if (storedUserData) {
         const parsedUserData = JSON.parse(storedUserData);
+
+        let [month, day, year] = parsedUserData.date_of_birth.split("/");
+        let datee = new Date(year, month - 1, day);
+
         setFirstName(parsedUserData.first_name);
         setLastName(parsedUserData.last_name);
         setEmail(parsedUserData.email);
         setPhone(parsedUserData.phone);
         setAddress(parsedUserData.address);
         setDateOfBirth(parsedUserData.date_of_birth);
+        setDate(datee);
         setAge(parsedUserData.age);
         setWork(parsedUserData.work);
+        setSalary(parsedUserData.salary);
         // setImageUri(parsedUserData.image);
       }
     } catch (error) {
@@ -78,7 +107,16 @@ const AccountInformation = ({ navigation }) => {
       formData.append("phone", phone);
       formData.append("email", email);
       formData.append("age", age);
-      formData.append("date_of_birth", dateOfBirth);
+      formData.append("salary", salary);
+      // formData.append("date_of_birth", dateOfBirth);
+      formData.append(
+        "date_of_birth",
+        date.toLocaleDateString("en-US", {
+          month: "2-digit",
+          day: "2-digit",
+          year: "numeric",
+        })
+      );
       formData.append("work", work);
 
       if (imageUri) {
@@ -92,7 +130,7 @@ const AccountInformation = ({ navigation }) => {
         });
       }
 
-      const apiEndpoint = `${"http://192.168.1.5:8000"}/api/users/edit-profile`;
+      const apiEndpoint = `${"https://smart-spend.online"}/api/users/edit-profile`;
       const token = await AsyncStorage.getItem("userToken");
 
       const response = await axios.post(apiEndpoint, formData, {
@@ -159,17 +197,37 @@ const AccountInformation = ({ navigation }) => {
           value={address}
           onChangeText={(text) => setAddress(text)}
         />
-        <TextInput
+        {/* <TextInput
           style={styles.input}
           placeholder="Enter date of birth"
           value={dateOfBirth}
           onChangeText={(text) => setDateOfBirth(text)}
+        /> */}
+        <TouchableOpacity
+          style={[styles.inputButton, { marginBottom: 10 }]}
+          onPress={showDatepicker}
+        >
+          <Text style={styles.inputButtonText}>Date Picker</Text>
+        </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          value={date.toLocaleDateString("en-US", {
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric",
+          })}
         />
         <TextInput
           style={styles.input}
           placeholder="Enter age"
           value={age}
           onChangeText={(text) => setAge(text)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter salary"
+          value={salary}
+          onChangeText={(text) => setSalary(text)}
         />
         <TextInput
           style={styles.input}

@@ -61,6 +61,7 @@ class AuthController extends Controller
             'date_of_birth' => 'required|string',
             'age' => 'required|integer',
             'work' => 'required|string',
+            'salary' => 'required'
         ]);
 
         $user = new User();
@@ -74,6 +75,7 @@ class AuthController extends Controller
         $user->date_of_birth = $request->date_of_birth;
         $user->age = $request->age;
         $user->work = $request->work;
+        $user->salary = $request->salary;
         $user->save();
 
         $token = $user->createToken('user_token')->plainTextToken;

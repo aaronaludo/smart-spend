@@ -43,7 +43,7 @@ const EditIncome = ({ navigation, route }) => {
       const token = await AsyncStorage.getItem("userToken");
 
       const response = await axios.put(
-        `${"http://192.168.1.5:8000"}/api/users/incomes/${item.id}`,
+        `${"https://smart-spend.online"}/api/users/incomes/${item.id}`,
         {
           name: name,
           income: income,

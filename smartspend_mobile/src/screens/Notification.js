@@ -38,7 +38,7 @@ export default function Notification() {
       setRefreshing(true);
       const token = await AsyncStorage.getItem("userToken");
       const response = await axios.get(
-        `${"http://192.168.1.5:8000"}/api/users/notifications`,
+        `${"https://smart-spend.online"}/api/users/notifications`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -72,7 +72,7 @@ export default function Notification() {
       }
     >
       {notifications.map((item) => (
-        <>
+        <View key={item.id}>
           <View style={styles2.container}>
             <Text style={styles2.title}>{item.date}</Text>
           </View>
@@ -85,7 +85,7 @@ export default function Notification() {
               <Text style={styles.description}>{item2.description}</Text>
             </View>
           ))}
-        </>
+        </View>
       ))}
     </ScrollView>
   );
@@ -126,8 +126,8 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     paddingRight: 20,
     paddingLeft: 20,
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 4,
+    marginBottom: 4,
     marginLeft: 20,
     marginRight: 20,
     borderRadius: 10,

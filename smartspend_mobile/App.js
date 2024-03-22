@@ -10,7 +10,7 @@ import LearningFeaturesContent from "./src/screens/LearningFeaturesContent";
 import LearningFeaturesModule from "./src/screens/LearningFeaturesModule";
 import Login from "./src/screens/Login";
 import OTP from "./src/screens/OTP";
-import Recommendation from "./src/screens/Recommendation";
+import Plans from "./src/screens/Plans";
 import Registration from "./src/screens/Registration";
 import RiskAssessment from "./src/screens/RiskAssessment";
 import TapWidget from "./src/screens/TapWidget";
@@ -20,6 +20,8 @@ import AddIncome from "./src/screens/AddIncome";
 import AddExpense from "./src/screens/AddExpense";
 import EditIncome from "./src/screens/EditIncome";
 import EditExpense from "./src/screens/EditExpense";
+import Plan from "./src/screens/Plan";
+import RiskAssessmentAnswers from "./src/screens/RiskAssessmentAnswers";
 
 const Stack = createStackNavigator();
 
@@ -57,7 +59,7 @@ function AppNavigator() {
           component={OTP}
           // options={{ headerShown: false }}
         />
-        <Stack.Screen name="Recommendation" component={Recommendation} />
+        <Stack.Screen name="Plans" component={Plans} />
         <Stack.Screen
           name="Registration"
           component={Registration}
@@ -71,6 +73,11 @@ function AppNavigator() {
         <Stack.Screen name="Add Expense" component={AddExpense} />
         <Stack.Screen name="Edit Expense" component={EditExpense} />
         <Stack.Screen name="Edit Income" component={EditIncome} />
+        <Stack.Screen name="Plan" component={Plan} />
+        <Stack.Screen
+          name="Risk Assessment Answers"
+          component={RiskAssessmentAnswers}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RiskAssessment extends Model
+class UserPlan extends Model
 {
     use HasFactory;
 
-    public function choices()
+    public function plan()
     {
-        return $this->hasMany(RiskAssessmentChoice::class, 'risk_assessments_id');
+        return $this->belongsTo(Plan::class);
     }
+
 }

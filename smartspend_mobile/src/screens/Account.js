@@ -42,7 +42,7 @@ export default function Account({ navigation }) {
       const token = await AsyncStorage.getItem("userToken");
       if (token) {
         const response = await axios.get(
-          `${"http://192.168.1.5:8000"}/api/users/logout`,
+          `${"https://smart-spend.online"}/api/users/logout`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -70,7 +70,7 @@ export default function Account({ navigation }) {
         {userData.image !== null ? (
           <Image
             source={{
-              uri: `${"http://192.168.1.5:8000"}/storage/${userData.image}`,
+              uri: `${"https://smart-spend.online"}/storage/${userData.image}`,
             }}
             style={styles.image}
           />
@@ -116,7 +116,7 @@ export default function Account({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={() => navigation.navigate("Recommendation")}
+          onPress={() => navigation.navigate("Plans")}
         >
           <View style={styles.titleContainer}>
             <View style={{ flexDirection: "row" }}>
@@ -126,7 +126,7 @@ export default function Account({ navigation }) {
                 color="black"
                 style={{ marginRight: 30, color: "#41DC40" }}
               />
-              <Text style={styles.buttonText}>Recommendation</Text>
+              <Text style={styles.buttonText}>Plans</Text>
             </View>
             <Feather name="arrow-right-circle" size={24} color="black" />
           </View>

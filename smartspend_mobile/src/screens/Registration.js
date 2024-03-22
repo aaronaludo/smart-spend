@@ -10,8 +10,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styles } from "../styles/Form";
 import axios from "axios";
 import { CheckBox } from "react-native-elements";
+import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 
 const Registration = ({ navigation }) => {
+  const [date, setDate] = useState(new Date());
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
@@ -19,11 +21,31 @@ const Registration = ({ navigation }) => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [age, setAge] = useState("");
   const [work, setWork] = useState("");
+  const [salary, setSalary] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [error, setError] = useState("");
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    console.log(currentDate);
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    DateTimePickerAndroid.open({
+      value: date,
+      onChange,
+      mode: currentMode,
+      is24Hour: false,
+    });
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
 
   const toggleCheckbox = () => {
     setIsChecked(!isChecked);
@@ -44,17 +66,23 @@ const Registration = ({ navigation }) => {
     setError("");
     try {
       const response = await axios.post(
-        `${"http://192.168.1.5:8000"}/api/users/register`,
+        `${"https://smart-spend.online"}/api/users/register`,
         {
           first_name: firstName,
           last_name: lastName,
           phone: phone,
           address: address,
           phone: phone,
-          date_of_birth: dateOfBirth,
+          // date_of_birth: dateOfBirth,
+          date_of_birth: date.toLocaleDateString("en-US", {
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric",
+          }),
           age: age,
           work: work,
           email: email,
+          salary: salary,
           password: password,
           password_confirmation: passwordConfirmation,
         }
@@ -103,11 +131,25 @@ const Registration = ({ navigation }) => {
           value={address}
           onChangeText={(text) => setAddress(text)}
         />
-        <TextInput
+        {/* <TextInput
           style={styles.input}
           placeholder="Date of birth"
           value={dateOfBirth}
           onChangeText={(text) => setDateOfBirth(text)}
+        /> */}
+        <TouchableOpacity
+          style={[styles.inputButton, { marginBottom: 10 }]}
+          onPress={showDatepicker}
+        >
+          <Text style={styles.inputButtonText}>Date Picker</Text>
+        </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          value={date.toLocaleDateString("en-US", {
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric",
+          })}
         />
         <TextInput
           style={styles.input}
@@ -120,6 +162,12 @@ const Registration = ({ navigation }) => {
           placeholder="Work"
           value={work}
           onChangeText={(text) => setWork(text)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Salary"
+          value={salary}
+          onChangeText={(text) => setSalary(text)}
         />
         <TextInput
           style={styles.input}
