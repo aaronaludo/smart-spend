@@ -11,7 +11,7 @@
                 <div class="box">
                     <canvas id="mixedChart" width="400" height="200"></canvas>
                 </div>
-          </div>
+            </div>
         </div>
     </div>
     

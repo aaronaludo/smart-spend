@@ -139,7 +139,7 @@ class OverviewController extends Controller
             $formattedData = [
                 'month' => $month,
                 'year' => $currentYear,
-                'total_income' => $userSalary, // Initialize total_income with user's salary
+                'total_income' => $userSalary,
                 'total_expense' => $totalCombinedCost,
             ];
     

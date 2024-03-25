@@ -279,7 +279,7 @@ h2.title {
     box-shadow: none;
 }
 .tile {
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
     border-radius: 4px;
     color: #ffffff;
 }

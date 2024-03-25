@@ -59,7 +59,7 @@ const RiskAssessment = ({ navigation }) => {
       setRiskAssessmentsAnswers(
         response.data.userAssessmentAnswer === null
           ? []
-          : response.data.userAssessmentAnswer
+          : response.data.userAssessmentAnswer.results
       );
     } catch (error) {
       console.log(error);
@@ -127,7 +127,7 @@ const RiskAssessment = ({ navigation }) => {
               key={choice.id}
               title={choice.description}
               checked={
-                riskAssessmentsAnswers.results.find(
+                riskAssessmentsAnswers.find(
                   (answer) =>
                     answer.question_id === question.id &&
                     answer.letter === choice.letter
@@ -146,12 +146,6 @@ const RiskAssessment = ({ navigation }) => {
           ))}
         </View>
       ))}
-
-      <View style={styles.containerButton}>
-        <TouchableOpacity style={styles.inputButton} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Submit</Text>
-        </TouchableOpacity>
-      </View>
     </ScrollView>
   );
 };
